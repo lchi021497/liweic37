@@ -1,0 +1,113 @@
+{%- extends 'index.html' -%}
+{%- block additional_css -%}
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+{%- endblock -%}
+{%- block body -%}
+<div class="post">
+		<div class="col-lg-15">
+			{%- with messages = get_flashed_messages(with_categories=True) -%}
+				{%- if messages -%}
+					{%- for category, message in messages -%}
+						<div class="response">
+							<span class="message {{ category }}">{%- if category == 'success' -%}✔{%- endif -%}&nbsp;{{ message }}</span>
+						</div>
+					{%- endfor -%}
+				{%- endif -%}
+			{%- endwith -%}
+			<div>
+				<div>
+					<div class="row">
+						<h2>首頁管理</h2>
+						{%- for p in categoryPath.split("/") -%}
+							{%- if loop.index0 != 0 -%}
+								{{ ">>" }}
+							{%- endif -%}
+							<button class="categoryButton btn-primary">
+								<a href="{{ url_for('get_news_categories', category_path='/'.join(categoryPath.split('/')[:loop.index0 + 1])) }}">{{ p | safe }}</a>
+							</button>
+						{%- endfor -%}
+					</div>
+					<table class="table table-bordered">
+						{%- for category in categories -%}
+							{%- for dir in category['path'].strip("/".join(categoryPath.split("/")[:-1]) + "/").split("/") -%}
+								&nbsp;&nbsp;&nbsp;&nbsp;
+							{%- endfor -%}
+							<button class="categoryButton btn-primary">
+								<a title="Listing" href="{{ url_for('get_news_categories', category_path=category['path']) }}">{{ category['name'] | safe }}</a>
+							</button>
+						{%- endfor -%}
+					</table>
+				</div>
+				<br>
+				
+				<div class="row">
+					<div class="col-lg-12 col-sm-12">
+						<div class="panel-deck">
+							{%- for post in posts -%}
+								<div class="panel col-lg-4 col-md-6 col-sm-12">
+									<div class="panel-body">
+										<img style="height:200px" src="{{ posts_thumbnail[loop.index0] }}" alt="Card image cap">
+									</div>
+									<div class="panel-body">
+										<h5 class="panel-title">{{ post['title'] }}</h5>
+										<p style="font-family: serif;font-size: 14px;" class="panel-text">{{ post['body'][:100] | sed_photos }}..</p>
+										<a href="{{ url_for('single_post', permalink=post['permalink']) }}">閱讀更多..</a>
+										<a title="Delete" href="{{ url_for('delete_news_post', post_path=categoryPath, id=post['id']) }}" class="card-link icon-remove-sign bigger icon product-post-control"></a>
+										<a title="Edit" href="{{ url_for('news_edit_post', post_path=categoryPath, id=post['id']) }}" class="card-link icon-edit-sign bigger icon product-post-control"></a>	
+									</div>
+								</div>
+							{%- endfor -%}
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					{%- if session["user"] -%}
+					<form style="width:100px;float:left;display:inline" role="form" method="post" action="/news/{{ categoryPath }}" id="addForm">
+						<input type="hidden" id="addName" name="addName" value="" />
+						<input type="submit" class="form-control" value="新增分類" onclick="return prompt_add_name()" />
+					</form>
+					{%- endif -%}
+					{%- if session["user"] -%}
+					<form style="width:100px;float:left;display:inline" method="get", action="/new_post/news/{{ categoryPath }}">
+						<input type="submit" class="form-control" value="新增文章" />
+					</form>
+					
+					{%- endif -%}
+					{%- if session["user"] and session["user"]["username"] == "admin" -%}
+					<form style="width:100px;float:left;display:inline" method="post" action="/news/category_delete" id="delForm">
+						<input type="hidden" name="delPath" value="{{ categoryPath }}" /> 
+						<input type="hidden" id="delName" name="delName" value="" /> 
+						<input type="submit" class="form-control" value="移除分類" onclick="return prompt_del_name()" />
+					</form>
+					{%- endif -%}
+					{% if session["user"] -%}
+					<form role="form" method="post" action="/update_news_category/{{ categoryPath }}" id="coverForm" enctype="multipart/form-data">
+						<textarea name="news_category_description" class="form-control" rows="8" placeholder="簡短敘述" required>{{ (category_description if category_description is not none else '') | safe }}</textarea>
+						{%- if cover_photo -%}
+							<a href="{{ cover_photo }}">目前封面圖片</a>
+							<a title="Delete" href="{{ url_for('delete_cover_photo', category_path=categoryPath) }}" class="icon-remove-sign bigger icon"></a>
+						{%- endif -%}
+						
+						
+						<!-- <input type="text" name="current_cover_photo" class="form-control" value="{{ cover_photo }}" readonly /> -->
+						<input style="width:130px" type="file" name="cover_photo" multiple=""/>
+						<input style="width:130px" type="submit" class="form-control" value="更新版面內容" />
+					</form>
+					{%- endif -%}
+				</div>
+				
+			</div>
+		</div>
+	</div>
+{%- endblock -%}
+
+
+{%- block scripts -%}
+	<script src="https://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="{{ url_for('static', filename='js/a-tools.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/showdown.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/mdmagick.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/prompt.js') }}"></script>
+{%- endblock -%}

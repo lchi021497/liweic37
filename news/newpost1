@@ -1,0 +1,10 @@
+---
+title: List of Projects I have worked on:
+tags: [personal projects]
+date: 11/01/22
+---
+### Major Projects \n
+<img src="../../../static/img/b_plus_tree.png" width="100" height="100">
+
+* B+ Tree Index: Implement a B+ tree index from scratch in C++11, supporting concurrent insert/delete operations and iterator semantics to traverse stored items in sorted order. \n
+* Buffer Pool Manager: Implement swapping in/out db pages according to LRU-K policy.

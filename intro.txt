@@ -1,0 +1,7 @@
+Hi! I am Li-Wei and welcome to my personal website.
+
+I am currently a software engineer in Pittsburgh, Pennslyvania. I am interested in the intersection of systems programming and robotics/AI. Since robotics and ML/AI is so new, I like to read research papers and prototype different research ideas/projects, such as computer vision, reinforcement learning, and more recently LLMs.
+
+I am proficient in Python, C++, Rust programming languages and am comfortable with cloud platforms in AWS, GCP, and Azure cloud platforms.
+
+In my off-time, I like to watch movies, go for a hike, and just learn about all types of subject areas that interest me!

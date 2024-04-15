@@ -1,0 +1,39 @@
+---
+title: Making a Personalized Hacker News Page
+tags: [information retrieval, NLP, personalization]
+date: 11/01/22
+---
+
+[DEMO LINK](http://ec2-54-242-255-126.compute-1.amazonaws.com:5000)\n
+
+***The Idea***\n
+This has been a project that I have always wanted to work on. I have always been an avid user of HackerNews, but I have found that I am only interested in specific topics (science and finance) and do not care as much about the "freshness" of posts as much. As a news aggregator, HackerNews promotes posts based on the number of upvotes and the freshness of posts, which does not server optimally to my needs. I find that as a news source, HackerNews provide a good aggregation of the topics that I am interested, however, the ranking algorithm may sometimes actually hinder me finding the posts that I am interested in by promting posts that I am not so interested in to the top of the rank because of the number of upvotes. Hence, I sometimes have the feeling that the news source could be made better if a personalized filter can be applied on the aggregation of posts in order better suit my taste of news reading.\n
+
+***HackerNews Ranking Algorithm***\n
+I first came across HackerNew's Ranking Algorithm when I was reading Paul Graham's "Hackers and Painters". My first impression is that "wow, this is such a simple algorithm!". The algorithm is detailed in this [Medium post](https://medium.com/hacking-and-gonzo/how-hacker-news-ranking-algorithm-works-1d9b0cf2c08d): Score = (P-1)/(T+2)**G where P is the number of votes, T is the time since the post has been posted, and G is the "gravity" essentially the decaying factor of the post with respect to time.\n
+
+So old posts decay relatively quickly if they do not have high upvotes and even a post with lower upvotes can be taken over by a post with higher upvotes but have been posted a while. As a casual reader, though, I actually do not care as much to the "freshness" of the news that much. As long as the news happened within the last week or so and it is something that I care about, I am interested in the news. In such a ranking system, such post that have been posted a week or so would find itself quickly deranked by other newer posts because of the decaying time factor that the algorithm uses.\n
+
+***Scraping for data***\n
+So I started out the process by scraping for data. Since the HackerNews page is relatively static, it was very easy to parse the posts with a web scraper like[Scrapy](https://scrapy.org). I made this scrapy spider that would crawl the HackerNews pages for links to follow (site links). Then, the spider would in turn crawl the site links for paragraphs on the site page in order to gather the data that would make the document classification model in the next section work. I made this scraping job a Cron Job that runs every tree hours, which scrapes the text data, extracts links on the pages to follow, and clean the data through a data pipeline that eventually stores the data as MongoDB documents.\n
+
+These are some exmample posts:
+![hnpost1](../../../static/assets/projects/personalized hackernews/hnpost1.png)
+![hnpost2](../../../static/assets/projects/personalized hackernews/hnpost2.png)
+![hnpost3](../../../static/assets/projects/personalized hackernews/hnpost3.png)
+
+\n
+***Picking a classification model***\n
+Next, it was time to figure out how to show posts to users who are interested in niche topics. For me, I am interested in science and technology, which is popular among HackerNews posts, but I am also interested in finance posts, which would be a niche topic in the HackerNews world. I ended up using a text document classficiation model, which is model detailed in the [paper](https://arxiv.org/pdf/1405.4053v2.pdf). This model learns paragraph feature vectors using a process similar to learning Word Embeddings (i.e. next word prediction), where the paragraphs from a document are projected into a fixed dimensional vector (one per document) to act as a context vector, which is concatenated with word sequence tokens randomly sampled from that document. Through supervised learning of next word prediction, the model learns to predict the next word based on the context also the word tokens provided. A contingency to this learning is that the context vector actually learns a representation of the paragraph that is semantically useful for next word prediction. So, this context vector has a representation that is also useful for identifying the types of document that was input into the model. The mapping matrix **D** that takes in paragraph id stores the context vector as columns and output the context vector of that document, similar to the mapping matrix **W** that maps word vectors. During training, both the weights in the paragraph mapping matrix **D** and the word mapping matrix **W** are trainable. By the way, the word mapping matrix **W** used to map the word tokens are shared so that they learn a consistent word mapping matrix and save compute. At inference time, the word vector matrices are fixed, and the test paragraph input vector is concatenated to the mapping matrix **D** by adding a new column and is optimized to predict labels using gradient descent as done during training, with the caveat that the word mapping matrix **W** is fixed. Once converged, these columns represent the embedding of the input paragraph vector and can be used as features for classifiers, and that is exactly what I did next!\n
+
+***Evaluating Results***\n
+After training the document to vector (Doc2Vec) model as described above, I was interested to see if I could use paragraph and word features learned to identify clusters of interesting topics. So I chose the simplest K-means algorithm to do this. Here are some examples clusters:
+
+As you can see, the model performs reasonably well in clustering related topics. I also made a Flask App that allows user to query topics that they are interested in. However, I realize that in order to find the related cluster from short user input, such as "science" or "programming", the model needs to be able to classify these short phrases, which is not what it was trained for. Therefore, instead of feed the user query into the model, classify it, and finding the closest documents related to that query, I went with a hybrid search approach. The user query is used to search the document database for number of occurrences in each document and the document with the most common occurrence of the user query (e.g. science) is chosen as a proxy to the cluster that the user is looking for. The second step is returning the documents that are close to that proxy in the embedded space with the same Kmeans label (i.e. they come from the same cluster). This approach was much more effective in classifying user inputs that are short without sacrificing the powerful Doc2Vec classification model that classifies on the content of the paragraph, rather than rigid keyword classifications. Check the Demo link at the top! Here are some examples with some of favorite topic:
+
+![hnpost1](../../../static/assets/projects/personalized hackernews/programming_posts.png)\n
+
+![hnpost3](../../../static/assets/projects/personalized hackernews/stocks_posts.png)\n
+
+***Things to Improve***\n
+This project worked out surprisingly well!! I was able to collect the data for training the *gensim* Doc2Vec model and able to use the Doc2Vec model to reach effective results very quickly. Using a simple cluster algorithm with the paragraph embedding vectors, I was able to obtain clusters of topics. Finally, there are definitely further improvements that could be made. For example, there could be a data range input where users want to only see the posts from a certain period. Also, since the demo is running in the cloud, the ML model is static and does not update with newer HackerNews posts. Making the ML model to have continuous update would also be an interesting next step!

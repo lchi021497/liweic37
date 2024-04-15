@@ -1,0 +1,85 @@
+{%- extends 'index.html' -%}
+{%- block body -%}
+	{% if session.get('post-preview', None) %}
+		{% set post_title = session['post-preview'].get('title', None) %}
+		{% set post_preview = session['post-preview'].get('preview', None) %}
+		{% set post_body = session['post-preview'].get('body', None) %}
+		{% set tags = session['post-preview'].get('tags', None) %}
+		{% if tags %}
+			{% set post_tags = ','.join(tags) %}
+		{% endif %}
+	{% else %}
+		{% set post_title = post['title'] %}
+		{% set post_preview = post['preview'] %}
+		{% set post_body = post['body'] %}
+		{% set post_tags = post['tags'] %}
+	{% endif %}
+	<div class="post clearfix">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="page-header">
+					<h1>Edit Post</h1>
+				</div>
+				<div class="content">
+					{%- with messages = get_flashed_messages(with_categories=True) -%}
+						{%- if messages -%}
+							{%- for category, message in messages -%}
+								<div class="response">
+									<span class="message {{ category }}">{%- if category == 'success' -%}✔{%- endif -%}&nbsp;{{ message }}</span>
+								</div>
+							{%- endfor -%}
+						{%- endif -%}
+					{%- endwith -%}
+					<form id="post-form" role="form" method="post" action="{{ url_for(post_endpoint, post_path=curr_path, id=id) }}" enctype="multipart/form-data">
+						<div class="form-group {% if error and error_type == 'validate' %}has-error{% endif %}">
+							{%- if error and error_type == 'validate' -%}
+								<label class="control-label" for="post-title">Required field</label>
+							{%- endif -%}
+						    <input type="text" class="form-control" name="post-title" id="post-title" placeholder="Post Title" required value="{{ post_title | safe }}">
+					    </div>
+						<div class="form-group">
+						    <textarea id="post-short" name="post-short" class="form-control" rows="3" placeholder="Short Text">{{ post_preview | safe }}</textarea>
+					    </div>
+						<div class="form-group {% if error and error_type == 'validate' %}has-error{% endif %}">
+							{%- if error and error_type == 'validate' -%}
+								<label class="control-label" for="post-full">Required field</label>
+							{%- endif -%}
+						    <textarea id="post-full" name="post-full" class="form-control" rows="6" placeholder="Full Text" required>{{ post_body | safe }}</textarea>
+					    </div>
+						<div class="form-group">
+						    <label for="post-tags">Tags</label>
+						    <input type="text" name="post-tags" class="form-control" id="post-tags" placeholder="Comma separated" value="{{ ','.join(post_tags) if post_tags else '' }}">
+					    </div>
+						<div class="form-group">
+							<input type="hidden" name="post-preview" id="preview">
+							<input type="hidden" name="post-id" value="{{ post['id'] }}">
+							<input name="_csrf_token" type="hidden" value="{{ csrf_token() }}">
+						    <input id="post-submit" type="submit" value="發表文章">
+							<input id="post-preview" type="submit" value="預覽文章">
+					    </div>
+
+						<input type="hidden" name="asset_save_path" value="{{ post['asset_save_path'] }}"/>
+						新增圖檔
+						<input type="text" name="prev_images" class="form-control" value="{{ ','.join(post['images']) if post['images'] else '' }}" readonly />
+						<input type = "file" name="images" multiple=""/>
+
+						新增報告
+						<input type="text" name="prev_files" class="form-control" value="{{ ','.join(post['files']) if post['files'] else '' }}" readonly />
+						<input type="file" name="files" multiple=""/>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{%- endblock -%}
+{%- block additional_js -%}
+	<script src="{{ url_for('static', filename='js/debounce.js') }}"></script>
+{%- endblock -%}
+{%- block scripts -%}
+	<script src="https://codeorigin.jquery.com/jquery-2.0.3.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="{{ url_for('static', filename='js/a-tools.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/showdown.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/mdmagick.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{%- endblock -%}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-D4K06E22MZ"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-D4K06E22MZ');
+		</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />  
+	</head><head>
+    <title>lchi&#39;s website</title>
+	<meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+	<link href="static/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="static/css/mdmagick.css" rel="stylesheet">
+	<link rel="icon" type="image/png" href="static/img/favicon.png">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.min.css" rel="stylesheet"><script src="static/bower_components/platform/platform.js"></script>
+	<script src="static/bower_components/polymer/polymer.js"></script>
+	<link rel="import" href="static/bower_components/github-gist/github-gist.html">
+</head><body><div class="navbar navbar-default navbar-fixed-top">
+	<a href="/" class="navbar-brand" style="display: inline;">Lchi</a>
+
+	<button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar-main">
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	</button>
+	
+	<div id="navbar-main" class="navbar-collapse collapse">
+		
+		
+		<ul class="navbar-nav nav">
+			<li><a href="/posts">Posts</a></li>
+		</ul>
+		
+			
+		
+	</div>
+</div>
+	<div id="wrapper">
+			<div class="container"><div class="container">
+            <div class="row">
+                <div class="intro">
+                    <div class="col-lg-4">
+                        <img width="350" style="margin:50px 0px" src="static/img/landing_profile.jpg">
+                    </div>
+                    <div class="col-lg-6" style="margin-top: 50px;">
+                        <p><p>Hi! I am Li-Wei and welcome to my personal website.</p>
+<p>I am currently a software engineer in Pittsburgh, Pennslyvania. I am interested in the intersection of systems programming and robotics/AI. Since robotics and ML/AI is so new, I like to read research papers and prototype different research ideas/projects, such as computer vision, reinforcement learning, and more recently LLMs.</p>
+<p>I am proficient in Python, C++, Rust programming languages and am comfortable with cloud platforms in AWS, GCP, and Azure cloud platforms.</p>
+<p>In my off-time, I like to watch movies, go for a hike, and just learn about all types of subject areas that interest me!</p></p>
+                    </div> 
+                </div> 
+            </div>
+            <div>
+                <div class="panel-deck">
+                    <h3> Systems Projects (C/C++, Golang) </h3>
+                    <div class="row justify-content-center align-content-center"> 
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/b_plus_tree.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>B+ Tree Index</b>: A common data structure that used in modern databases is the B+-tree data structure. In this project, I implemented a B+ tree index that does insertion, querying, and deletion in O(lg(N)) time complexity from scratch in C++11, supporting concurrent insert/delete operations with crab latching to minimize the lock time and iterator semantics for users to traverse stored items in sorted order. </p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/buffer_pool.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Buffer Pool Manager</b>: Another core component of modern database system is the buffer pool manager that is responsible for the memory management of DB pages in memory. In this project, I implemented a buffer pool manager that swaps in/out DB pages from disk/memory to memory/disk employing the LRU-K eviction policy with respect to the access pattern to the pages, providing a nice API of "page guards" using the RAII design pattern allowing easy management of page read/write locks.</p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/akka.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Akka-like distributed key-value store</b>: For geographically distributed key-value stores, an important QoS is latency. A common way of optimizing for latency is to run key-value store client locally. In this project, I implemented a distributed message-driven system similar to the Akka programming framework (<a href="https://akka.io">Java Akka Framework</a>) API with actor semantics. This system provides high latency by hosting client key/value processes locally and high throughput by using all available cores on the local machine. In addition, the communication pattern with the remote servers are is minimized by having "relay processes" on each remote machine that would desseminate write messages to other remote processes. Consensus among the client and server programs in this system is reached among different local/remote key-value processes by the last-writer wins (LWW) policy. The system provides SLA guarantees that local writes are synced to local processes within 500ms and remote processes done within 2000ms.</p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/bitcoin.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Distributed Bitcoin Miner</b>: Want to mine bitcoin on hundreds of machines relibably (machine failure? no problem)? In this project, I designed a live sequence protocol that is used to have reliable communication between bitcoin clients and servers. The protocol that combines UDP and TCP features: able to handle connections with <i>multiple</i> concurrent clients, able to send messages reliably (windowed sequencing), and able to ensure data data integrity with CRC16. The protocol was used as the underlying communication mechanism to coordinate a cluster of bitcoin miners to scale mining capacity with the number of miner clients. </p>
+                            </div> 
+                    </div> 
+                    
+                    <h3>Embedded Systems and Low-level SW</h3>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/drive_by_wire.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Fault-tolerant Drive-by-Wire system</b>: For a drive-by-wire to be safe, fault tolerance is essential since electronics can fails.
+                                    In this project, the drive-by-wire system is phsycially distrbitued into 3 zones, each with a primary and secondary MCU to increase
+                                    fault tolerancy of the system. The system is able to tolerate at minimum 1 MCU failure and maximum 3 MCU failures. The main communication
+                                    between zones is done over CAN bus, and communication between primary and secondary MCUs are done over I2C to save pins. Real time scehduling
+                                    is achieved with FreeRTOS running on the STM32F407 boards, providing preemptive scheduling with priority on various tasks, including
+                                    communication, receiving user input from wheel, fault tolerant heartbeat communication, light blinkers, and motor control.
+                                </p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/nexus7.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Resource Reservation Framework and Scheduler</b>: Hacked the Linux kernel scheduler to implement a semi-RT linux kernel for real-time applications.
+                                    Implement Loadable Kernel Modules (LKM) and syscalls that allow users to reserve time slots that are managed by the kernel. Upon reaching
+                                    time budget, kernel context switches process out and sends out signal to running process. The system is able to schedule tasks on the
+                                    4-core Nexus 7 tablet using high precision hrtimers to keep track of resource utilization by running processes.</p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/mem_allocator.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Memory Allocator</b>: Created a custom memory allocator with library interposition to intercept calls to memory allocation. Implement from in user-space functionalities of malloc, realloc, and calloc, applying data structure optimizations, such as segregated list, footerless blocks, and miniblocks, to find pareto optimal between throughput and memory utilization.</p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/cache.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Cache Simulator</b>: Created a cache simulator that simulates memory access performance of programs with configurable associativity, block size, and cache size settings of the physical cache. </p>
+                            </div> 
+                    </div>
+
+
+                    <h3>High Performance Systems (CUDA, OpenMP)</h3>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/n_body.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>N-body Simulation</b>: Acceleration on the simulation of N-body gravitational pull on Intel(R) Core(TM) i7-9700 CPU @ 3.00GHz machine with 8 cores using OpenMP framework. Achieved ~3x average speed up in building up quad tree data structure and ~8x speedup in simulating n-body movement using the quad tree
+                                data structure.</p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/rand10k.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Fast Circle Renderer</b>: Acceleration on rendering of circles with CUDA C++ on NVIDIA GeForce RTX 2080 B GPUs. The problem is broken down
+                                    into 3 parallelizable steps. <br>1. The frame is divided into a 64 x 64 grid, threads are launched with the data of each circle to test for
+                                    membership in each grid to obtain a # of circles - length bit vector for each grid. <br>2. The bit vector for each grid is compressed
+                                    using the lg(N) exclusive scan algorithm for each grid. <br>3. Each pixel renders its color according to the sublist of circles that belong in 
+                                    the grid that the pixel is located in.
+                                </p>
+                            </div> 
+                    </div>
+                    
+                    <h3> ML/AI (Python) </h3>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/personalized_hn.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Personalized HackerNews</b>: Leveraging the power of Doc2Vec text embedding, I made a personalized hacker news project that
+                                    recommends you related articles based on user input keyword and the proximity of text embeddings! The model is trained on 10k+
+                                    HackerNews posts that I scraped and cleansed periodically. The model is small enough to be deployed on AWS t2-micro machine to
+                                    provide this service at low cost. See more details <a href="/posts">here</a>.</p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/vae.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Generative MNIST with Variational Autoencoder</b>: Implemented the decoder-encoder architecture of variational autoencoders laid out in the <a href="https://arxiv.org/abs/1312.6114v10">Auto-Encoding Variational Bayes</a> paper from scratch. Contionally training the encoder and decoder with MNIST labels, the model is able to generate novel MNIST-like numbers not in the dataset! </p>
+                            </div> 
+                    </div> 
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/cam.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>ResNet with CAM (Class Activation Mapping)</b>: Drew inspiration from <a href="https://arxiv.org/pdf/1512.04150.pdf">Learning Deep Features for Discriminative Localization</a>, I trained a ResNet on CIFAR-10 and was able to get CAM maps that indicate where the neural network is paying attention towards!</p>
+                            </div> 
+                    </div>
+                    <div class="row">
+                            <div class="col-sm-2">
+                                <img class="img-fluid img-thumbnail" src="static/img/note_recognition.png">
+                            </div>
+                            <div class="col-sm-8">
+                                <p><b>Note Recognition Bot</b>: Developed a note recognition bot from data collection to deployment. Data collection started from extracting spectrogram
+                                    info on the onsets of musical notes (which is conveniently stored in .wav files). Harmonic frequencies make detection
+                                    more challenging to tell notes that are an octave apart. Dimensionality reduction is applied on the high dimensional
+                                    spectrogram data using LDA, LSA, ICA methods, feeding into SVM and neural network models, reaching 95% accuracy. 
+                                </p>
+                            </div> 
+                    </div>
+				</div>
+            </div>
+        </div></div>
+			
+		</div><footer>
+	<div class="container">
+		<p>Li-Wei Chi's Blog</p>
+	</div>
+</footer>
+<link href="static/css/main.css" rel="stylesheet">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+			<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script><script src="static/js/main.js"></script></body>
+</html>

@@ -1,0 +1,21 @@
+---
+title: The problem with Learning about Frameworks
+tags: [learning]
+date: 08/31/22
+---
+
+"Learning how to learn" has been touted as one of the most important skills that one can have by clear thinkers and more recently neuroscientists and artificial intelligence researches who study the brain. The notion can be rather abstract, unfortunately, leaving people like me wondering whether the way that we learn in school or in our personal lives is most effective and if not how we can adjust the way we metalearn in order to maximize our learning experiences.\n
+
+From my experience, there are many ways (learning modes) in which we can learn. As I have been recounting which learning experiences of my own I have derived the most value from, I have come to conclusion, like most things, there is no one-size-fits-all way of learning. Rather, there are learning modes that are appropriate for some instances, but can hold you back in other.\n 
+
+*** Learning by Trial and Error ***\n
+The most primitive way of learning is by trial and error, the carrot and stick style. By rewarding/punishing good/bad learning at the end of an episode, we reinforce the brain to remember that the behavior that it exhibited prior to the reward/punishment was the correct/ incorrect one. This type of learning is appropriate when the learning environment is relatively unknown (e.g. deciding whether a career is for you, as your interests __can__ be relatively unknown to you), but it comes with the cost of one of the most precious resources that we have: *time*. Each iteration that is tried with this approach takes away the time that you could otherwise be doing something else.\n
+
+*** Learning by Theory (First Principles) ***\n
+This type of learning mode is familiar to people who do mathematics or physics. This type of learning is accomplished by applying axioms to analyze, dissect, and reduce the problem at hand, to figure out whether there is a representation of the problem that matches a solution that you have figured out previously. This type of learning mode is suitable when the resource is scarce (either materially or time), and is great to figure things out on paper first before you go about in the real world to do things.\n
+
+*** Learning by Process ***\n
+
+
+*** Learning in a Framework ***\n
+This type of learning mode is familiar to the computer scientists in the room. "Frameworks" are abstraction layers that other people have created so that you have a separation of concerns, where you do not need to worry about "how" something is accomplished, rather you only need to understand "what" something is and use it as a means to achieve what you want. This type of learning can be *frivolous* since you do not understand what goes on under the hood, unless you need to. Yet, learning one framework after another can feel like you are just checking boxes off a checklist that you need to complete without knowing *why* you are doing it (If you are someone who has done app development, you know what I am saying.)\n

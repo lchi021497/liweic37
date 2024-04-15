@@ -1,0 +1,20 @@
+---
+title: Hardware/Software Codesign Trend 
+tags: [hardware, software, trend]
+---
+
+It has become the industry trend that software companies are doing more hardware stuff, and that hardware companies are doing more software stuff. The integration between software and hardware is just a symptom of the bigger industry trend that the best of both worlds is what companies covet for: the customization that software offers and the platformization that hardware creates. Google, as an example, have created their own hardware TPUs to accelerate machine learning compute workloads. This action made sense for Google to take because it would be in Google's nightmare that their machine learning models would have to run on one of its competitors' platform (e.g. an Amazon or Microsoft cloud platform). This would put Google in a chockhold that would be difficult for it to overcome. And Google is just one of the examples. Tesla who makes self-driving software has also developed their own Dojo chip, Facebook has made their own VR/AR chips. In the other direction, Apple has developed software to compliment and bring magic to its hardware platform.\n
+
+***Integration Between HW/SW***\n
+
+The integration between HW/SW were non-existent in the past when Google was just a search engine company, Apple was just a personal computer company, and Facebook was just a social media company.\n
+
+
+***Understanding HW as a SW Developer***\n
+When running on a customized HW SOC, the SW has to understand the HW side in order to get the most performance out of the hardware. This sacrifices the portability of the software for more performance. This tradeoff is not suitable for most cases, unless the performance is the first class requirement of the project (e.g. self-driving cars, VR headsets). However, if all you are working on is an web application, then such extra performance does not determine whether your product win or not.\n
+
+***Scaling Horizontally v.s. Vertically***\n
+Using more and more complex hardware allows the application to scale vertically, which maybe the only solution in a setting where latency is stringent and that the computation has to be somewhat deterministic (again self-driving cars). However, in a setting such as a gigantic web service that is servicing millions of requests with less stringent deadlines, a horizontal scaling of compute maybe a better solution. Scaling Horizontally has the advantage of being cheaper, offloading the cost of designing complex hardware to more complex programming a cluster of computers (i.e. distributed systems).\n
+
+***Picking SW/HW industry to work in***\n
+As described previously, SW and HW are solving different problems and so the engineering jobs that is required is different. Most SW is about customization, making the existing compute available to the applications and creating characteristics that is required of the application that are sometimes just impossible to attain in HW, for instance complex algorithms, web applications, distributed systems. HW is mostly about performance, power and the trade off between the two. The operating costs and margin for error is lower for HW and the lifecycle of developing HW is much longer than SW.\n

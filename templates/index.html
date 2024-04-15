@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-D4K06E22MZ"></script>
+		<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'G-D4K06E22MZ');
+		</script>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />  
+	</head>
+	{%- block head -%}{%- include 'head.html' -%}{%- endblock -%}
+	<body>
+		{%- block nav -%}{%- include 'nav.html' -%}{%- endblock -%}
+		<div id="wrapper">
+			<div class="container">
+				{%- block body -%}
+					
+				{%- endblock -%}
+			</div>
+			{% if pagination and pagination.pages > 1 %}
+				<div class="pagination-wrap">
+					<ul class="pagination">
+						{% for page in pagination.iter_pages() %}
+						{% if page %}
+							<li {% if page == pagination.page %}class="active"{% endif %}><a href="{{ url_for_other_page(page) }}">{{ page }}</a></li>
+						{% else %}
+							<li><span class=ellipsis>…</span></li>
+						{% endif %}
+						{% endfor %}
+						{% if pagination.has_next %}
+						<li><a href="{{ url_for_other_page(pagination.page + 1)
+							}}">&raquo;</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+		{%- include 'footer.html' -%}
+		{%- block scripts -%}
+			<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+			<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+			<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+			{%- block additional_js -%}{%- endblock -%}
+			<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+		{%- endblock -%}
+	</body>
+</html>

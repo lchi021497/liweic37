@@ -1,0 +1,90 @@
+{%- extends 'index.html' -%}
+{%- block additional_css -%}
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+{%- endblock -%}
+{%- block body -%}
+<div class="post">
+		<div class="col-lg-12 col-sm-12">
+			<div class="desktop sticky-top col-lg-2 col-sm-2 sidebar">
+				{%- if categoryPath == "home" -%}
+					<h3 style="font-family:'Microsoft YaHei';">Home </h3>
+				{%- else -%}
+					<h3 style="font-family:'Microsoft YaHei';">{{ categoryPath.split("/")[-1] }}</h3>
+				{%- endif -%}
+				<ul>
+					{%- for category in categories -%}
+						<li>
+							<a style="font-family:'Microsoft YaHei';" href="{{ url_for('get_news', category_path=category['path']) }}"> {{ category["name"] }} </a>
+							<i style="float:right;" class="arrow right"></i>
+						</li>
+					{%- endfor -%}
+				</ul>	
+			</div>
+			<div class="col-lg-10 col-sm-10">
+				<div class="cover_photo_bg">
+					{%- if cover_photo -%}
+						<img class="cover_photo img-fluid" src="{{ cover_photo }}"></img>
+					{%- endif -%}
+				</div>
+                <div style="margin-top: 10px;margin-left: 10px;">
+					<p style="font-family:'Microsoft YaHei'; font-size:18px;">
+						{{ category_description }}
+					</p>
+				</div>
+				
+
+				<!-- <div class="row">
+                    <div>
+					{%- if categories -%}
+                            <table class="table table-bordered" style="margin-top: 50px">
+                                <tbody>
+                                    {%- for category in categories -%}
+                                        {% set outer_loop = loop %}
+                                        {%- if loop.index % table_width == 0 and loop.index / table_width != 0 -%}
+                                            <tr>
+                                                {%- for i in range(table_width) | reverse -%}
+                                                    <td style="width: 25%">
+                                                        <a href="{{ url_for('get_news', category_path=category['path']) }}"> {{ categories[outer_loop.index - 1 - i]["name"] }} </a>
+                                                    </td>
+                                                {%- endfor -%}
+                                            </tr>
+                                        {%- endif -%}
+                                    {%- endfor -%}
+                                </tbody>
+                            </table>
+                        {%- endif -%}
+                    </div>
+                </div> -->
+
+				<div class="row">
+					<div class="col-lg-12 col-sm-12">
+						<div class="panel-deck">
+							{%- for post in posts -%}
+								<div class="panel col-lg-4 col-md-6 col-sm-12">
+									<div class="panel-body">
+										<img style="height:200px" src="{{ posts_thumbnail[loop.index0] }}" alt="Card image cap">
+									</div>
+									<div class="panel-body">
+										<h5 class="panel-title">{{ post['title'] }}</h5>
+                    <p style="font-family: serif;font-size: 14px;" class="panel-text">{{ post['body'][:100] }}..</p>
+
+										<!-- <a href="{{ url_for('single_post', permalink=post['permalink']) }}">閱讀更多..</a> -->
+										<a title="Delete" href="{{ url_for('delete_news_post', post_path=categoryPath, id=post['id']) }}" class="card-link icon-remove-sign bigger icon product-post-control"></a>
+										<a title="Edit" href="{{ url_for('news_edit_post', post_path=categoryPath, id=post['id']) }}" class="card-link icon-edit-sign bigger icon product-post-control"></a>	
+									</div>
+								</div>
+							{%- endfor -%}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{%- endblock -%}
+
+
+{%- block scripts -%}
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="{{ url_for('static', filename='js/prompt.js') }}"></script>
+{%- endblock -%}

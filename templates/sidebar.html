@@ -1,0 +1,27 @@
+<div class="sticky-top col-lg-3 visible-lg sidebar">
+    <h2> Navigation </h2>
+    <hr>
+    {%- if news_category -%}
+        <button class="categoryButton btn-primary">
+            <a title="Listing" href="{{ url_for('index') }}">News</a>
+        </button>
+    {%- endif -%}
+    
+    <ul>
+        <li>
+            <button class="categoryButton btn-primary">
+                <a title="Listing" href="{{ url_for('get_posts', category_path=post_categories[0]['path']) }}">{{ post_categories[0]['name'] | safe }}</a>
+            </button>
+        </li> 
+        {%- for category in post_categories[1:] -%}
+        <ol>
+            <li>
+                <button class="categoryButton btn-primary">
+                    <a title="Listing" href="{{ url_for('get_posts', category_path=category['path']) }}">{{ category['name'] | safe }}</a>
+                </button>
+            </li>
+        </ol>
+        
+        {%- endfor -%}
+    </ul>
+</div>

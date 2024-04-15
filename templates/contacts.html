@@ -1,0 +1,50 @@
+{%- extends 'index.html' -%}
+{%- block body -%}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h1>聯絡資訊</h1>
+            </div>
+            <div class="content" >
+                {%- with messages = get_flashed_messages(with_categories=True) -%}
+                    {%- if messages -%}
+                        {%- for category, message in messages -%}
+                            <div class="response">
+                                <span class="message {{ category }}">{%- if category == 'success' -%}✔{%- endif -%}&nbsp;{{ message }}</span>
+                            </div>
+                        {%- endfor -%}
+                    {%- endif -%}
+                {%- endwith -%}
+
+                <form role="form" class="form-group" action="/add_contacts" method="post">
+                    
+                    <label for="customer-name">姓名: </label>
+                    <span>
+                        <input class="form-control" name="customer-name" id="customer-name" type="text" value="{{ customer_name }}" required/>
+                    </span>
+                    <br>
+                    
+                    <label for="customer-phone">電話: </label>
+                    <span>
+                        <input class="form-control" name="customer-phone" id="customer-phone" type="text" value="{{ customer_phone }}" required/>
+                    </span>
+                    <br>
+                    
+                    <label for="customer-company">公司: </label>
+                    <span>
+                        <input class="form-control" name="customer-company" id="customer-company" type="text" value="{{ customer_company }}" required/>
+                    </span>
+                    <br>
+                    
+                    <label for="customer-email">電子郵件: </label>
+                    <span>
+                        <input class="form-control" name="customer-email" id="customer-email" type="text" value="{{ customer_email }}" required/>
+                    </span>
+                    <br>
+                    
+                    <button type="submit">聯絡我們</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{%- endblock -%}
